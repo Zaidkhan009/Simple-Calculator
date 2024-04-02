@@ -1,32 +1,47 @@
-#! /usr/bin/eng node
 import inquirer from "inquirer";
-const answere = await inquirer.prompt([
-    { message: "Enter your first number", type: "number", name: "firstNumber" },
+// i
+let myBalance = 5000;
+let myPin = 1234;
+console.log("Welcome to code with Zaid khan - ATM Machine");
+let pinAnswer = await inquirer.prompt([
     {
-        message: "Enter your second number",
+        name: "pin",
         type: "number",
-        name: "secondNumber",
-    },
-    {
-        message: "select one of operators to perform action",
-        type: "list",
-        name: "operator",
-        choices: ["ADDITION", "SUBTRACTION", "MULTIPLICATION", "DIVISION"],
-    },
+        message: "Enter your pin code: "
+    }
 ]);
-//    CONDITIONAL STATEMENT
-if (answere.operator === "ADDITION") {
-    console.log(answere.firstNumber + answere.secondNumber);
-}
-else if (answere.operator === "SUBTRACTION") {
-    console.log(answere.firstNumber - answere.secondNumber);
-}
-else if (answere.operator === "MULTIPLICATION") {
-    console.log(answere.firstNumber * answere.secondNumber);
-}
-else if (answere.operator === "DIVISION") {
-    console.log(answere.firstNumber - answere.secondNumber);
+if (pinAnswer.pin === myPin) {
+    console.log("Pin is Correct, Login Successfully!");
+    // console.log(`Current acount balance is ${myBalance}`)
+    let operationAns = await inquirer.prompt([
+        {
+            name: "operation",
+            type: "list",
+            mesaage: "Select an operation:",
+            choices: ["Withdraw Ammount", "Check Balance"]
+        }
+    ]);
+    if (operationAns.operation === "Withdraw Ammount") {
+        let amountAns = await inquirer.prompt([
+            {
+                name: "amount",
+                type: "number",
+                message: "Enter the amount to withdraw:"
+            }
+        ]);
+        if (amountAns.amount > myBalance) {
+            console.log("Insufficient Balance");
+        }
+        else {
+            myBalance -= amountAns.amaount;
+            console.log(`${amountAns.amount} Withdraw Successfully`);
+            console.log(`Your Remaining Balance is: ${myBalance}`);
+        }
+    }
+    else if (operationAns.operation === "Check Balance") {
+        console.log(`Your Account Balance is: ${myBalance}`);
+    }
 }
 else {
-    "Please select correct operator";
+    console.log("Pin is Incorrect, Try Again");
 }
